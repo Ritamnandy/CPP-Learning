@@ -1,4 +1,4 @@
-// Min heap tree
+// Min heap tree implementation in C++
 /*
 Parent Index = (index - 1) / 2)
 Left Child Index = 2 * i + 1
@@ -13,6 +13,7 @@ class MinHeap
 
 private:
     vector<int> heap;
+    vector<int> sortedHeap;
     // down to up
     void heapify_Up(int index)
     {
@@ -71,6 +72,16 @@ public:
         heapify_Up(heap.size() - 1);
     }
 
+    void buildMinheap(vector<int> &arr)
+    {
+        heap = arr;
+        int n = heap.size();
+        for (int i = (n / 2) - 1; i >= 0; i--)
+        {
+            heapify_Down(i, n);
+        }
+    }
+
     int deletion()
     {
         if (heap.empty())
@@ -93,6 +104,24 @@ public:
         return first;
     }
 
+    void sort()
+    {
+        while (!heap.empty())
+        {
+            int first = heap.front();
+            heap[0] = heap.back();
+            heap.pop_back();
+            heapify_Down(0, heap.size());
+            sortedHeap.push_back(first);
+        }
+        cout << "Sorted Min heap Tree:  ";
+        for (int i : sortedHeap)
+        {
+            cout << i << " ";
+        }
+        cout << endl;
+    }
+
     void display()
     {
 
@@ -107,15 +136,18 @@ public:
 
 int main()
 {
+    vector<int> arr = {40, 10, 30, 50, 60, 15, 5};
     MinHeap minHeap;
-    minHeap.insertion(20);
-    minHeap.insertion(10);
-    minHeap.insertion(30);
-    minHeap.insertion(50);
-    minHeap.insertion(40);
-    minHeap.insertion(5);
-    minHeap.deletion();
+    minHeap.buildMinheap(arr);
+    // minHeap.insertion(20);
+    // minHeap.insertion(10);
+    // minHeap.insertion(30);
+    // minHeap.insertion(50);
+    // minHeap.insertion(40);
+    // minHeap.insertion(5);
+    // minHeap.deletion();
     minHeap.display();
+    minHeap.sort();
 
     return 0;
 }
